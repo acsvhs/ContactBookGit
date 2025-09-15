@@ -128,11 +128,11 @@ public class Main {
         int phone = in.nextInt();
         in.nextLine();
 
-        String contactName = cBook.getContactByNumber(phone);
-        if (contactName == null)
+        String name = cBook.getContactByNumber(phone);
+        if (name == null)
             System.out.println(PHONE_NOT_EXIST);
         else
-            System.out.println(contactName);
+            System.out.println(name);
     }
 
     private static void setPhone(Scanner in, ContactBook cBook) {
