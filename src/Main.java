@@ -14,6 +14,7 @@ public class Main {
     public static final String SET_EMAIL      = "SE";
     public static final String LIST_CONTACTS  = "LC";
     public static final String GET_NUMBER     = "GN";
+    public static final String EXIST_PHONE    = "EP";
     public static final String QUIT           = "Q";
 
     //Constantes que definem as mensagens para o utilizador
@@ -24,6 +25,8 @@ public class Main {
     public static final String CONTACT_REMOVED = "contactBook.Contact removed.";
     public static final String CONTACT_UPDATED = "contactBook.Contact updated.";
     public static final String BOOK_EMPTY = "contactBook.Contact book empty.";
+    public static final String SAME_NUMBERS = "There are contacts that share phone numbers.";
+    public static final String DIFERENT_NUMBERS = "All contacts have different phone numbers.";
     public static final String QUIT_MSG = "Goodbye!";
     public static final String COMMAND_ERROR = "Unknown command.";
 
@@ -58,6 +61,9 @@ public class Main {
                 case LIST_CONTACTS:
                     listAllContacts(cBook);
                     break;
+                case EXIST_PHONE:
+                    checkPhoneNumbers(cBook);
+                    break;
                 default:
                     System.out.println(COMMAND_ERROR);
             }
@@ -68,8 +74,6 @@ public class Main {
         System.out.println();
         in.close();
     }
-
-
 
     private static String getCommand(Scanner in) {
         String input;
@@ -102,27 +106,6 @@ public class Main {
         else System.out.println(NAME_NOT_EXIST);
     }
 
-    private static void getContact(Scanner in, ContactBook cBook) {
-        Contact oldest = null;
-        int phone;
-        phone = in.nextInt();
-        in.nextLine();
-        if (!cBook.hasPhone(phone))
-            System.out.println(PHONE_NOT_EXIST);
-        else {
-            cBook.initializeIterator();
-        while (cBook.hasNext() && oldest==null) {
-            Contact c = cBook.next();
-            if (c.getPhone() == phone) {
-                oldest = c;
-            }
-
-        }
-            System.out.println(oldest.getName());
-        }
-
-    }
-
     private static void getPhone(Scanner in, ContactBook cBook) {
         String name;
         name = in.nextLine();
@@ -139,6 +122,26 @@ public class Main {
             System.out.println(cBook.getEmail(name));
         }
         else System.out.println(NAME_NOT_EXIST);
+    }
+
+    private static void getContact(Scanner in, ContactBook cBook) {
+        Contact oldest = null;
+        int phone;
+        phone = in.nextInt();
+        in.nextLine();
+        if (!cBook.hasPhone(phone))
+            System.out.println(PHONE_NOT_EXIST);
+        else {
+            cBook.initializeIterator();
+            while (cBook.hasNext() && oldest==null) {
+                Contact c = cBook.next();
+                if (c.getPhone() == phone) {
+                    oldest = c;
+                }
+
+            }
+            System.out.println(oldest.getName());
+        }
     }
 
     private static void setPhone(Scanner in, ContactBook cBook) {
@@ -174,5 +177,14 @@ public class Main {
             }
         }
         else System.out.println(BOOK_EMPTY);
+    }
+
+    private static void checkPhoneNumbers(ContactBook cBook) {
+        if(cBook.existsSamePhoneNumber()){
+            System.out.println(SAME_NUMBERS);
+        }
+        else{
+            System.out.println(DIFERENT_NUMBERS);
+        }
     }
 }

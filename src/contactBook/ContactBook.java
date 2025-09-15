@@ -53,8 +53,6 @@ public class ContactBook {
         return contacts[searchIndexByNumber(number)].getName();
     }
 
-
-
     //Pre: name != null && hasContact(name)
     public String getEmail(String name) {
         return contacts[searchIndex(name)].getEmail();
@@ -96,9 +94,25 @@ public class ContactBook {
         return result;
     }
 
+    //Para cada contacto verificamos se o seu número de telefone é diferente de todos os contactos à frente
+    public boolean existsSamePhoneNumber() {
+        int i = 0;
+        int j;
+        boolean sameNumber = false;
 
+        while(i < counter - 1 && !sameNumber){ //counter - 1 visto que o último número de contacto não tem nenhum à frente
+            j = i + 1; //j é o contacto asseguir a i
 
+            while(j < counter && !sameNumber){
+                sameNumber = contacts[i].getPhone() == contacts[j].getPhone();
+                j++;
+            }
 
+            i++;
+        }
+
+        return sameNumber;
+    }
 
     private void resize() {
         Contact tmp[] = new Contact[2*contacts.length];
@@ -119,5 +133,4 @@ public class ContactBook {
     public Contact next() {
         return contacts[currentContact++];
     }
-
 }
