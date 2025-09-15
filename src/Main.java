@@ -125,23 +125,14 @@ public class Main {
     }
 
     private static void getContact(Scanner in, ContactBook cBook) {
-        Contact oldest = null;
-        int phone;
-        phone = in.nextInt();
+        int phone = in.nextInt();
         in.nextLine();
-        if (!cBook.hasPhone(phone))
-            System.out.println(PHONE_NOT_EXIST);
-        else {
-            cBook.initializeIterator();
-            while (cBook.hasNext() && oldest==null) {
-                Contact c = cBook.next();
-                if (c.getPhone() == phone) {
-                    oldest = c;
-                }
 
-            }
-            System.out.println(oldest.getName());
-        }
+        String contactName = cBook.getContactByNumber(phone);
+        if (contactName == null)
+            System.out.println(PHONE_NOT_EXIST);
+        else
+            System.out.println(contactName);
     }
 
     private static void setPhone(Scanner in, ContactBook cBook) {

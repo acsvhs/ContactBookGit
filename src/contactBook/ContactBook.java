@@ -49,10 +49,6 @@ public class ContactBook {
         return contacts[searchIndex(name)].getPhone();
     }
 
-    public String getNameByPhone(int number) {
-        return contacts[searchIndexByNumber(number)].getName();
-    }
-
     //Pre: name != null && hasContact(name)
     public String getEmail(String name) {
         return contacts[searchIndex(name)].getEmail();
@@ -81,17 +77,28 @@ public class ContactBook {
         return result;
     }
 
+    // Encontrar a posição do contacto no array de contactos com o respetivo número de telefone
     private int searchIndexByNumber(int number) {
         int i = 0;
         int result = -1;
-        boolean found = false;
-        while (i<counter && !found)
-            if (contacts[i].getPhone()==number)
-                found = true;
+        while(i < counter && result == -1) {
+            if(contacts[i].getPhone() == number)
+                result = i;
             else
                 i++;
-        if (found) result = i;
+        }
         return result;
+    }
+
+    // Devolve o nome do contacto com o número de telefone de input
+    public String getContactByNumber(int number) {
+
+        String name = null;
+        int pos = searchIndexByNumber(number);
+
+        if (pos != -1)
+            name = contacts[pos].getName();
+        return name;
     }
 
     //Para cada contacto verificamos se o seu número de telefone é diferente de todos os contactos à frente
